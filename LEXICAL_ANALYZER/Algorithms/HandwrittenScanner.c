@@ -1,12 +1,13 @@
 #include <stdio.h>
 #include <ctype.h>
 
-const char *src = "x = x + 1";
+const char *src = "x = x * 1";
 
 typedef enum {
     TOK_IDENTIFIER,
     TOK_ASSIGN,
     TOK_PLUS,
+    TOK_MULT,
     TOK_NUMBER,
     TOK_EOF
 } TokenType;
@@ -76,6 +77,12 @@ void next_token() {
             token.text[1] = '\0';
             src++;
             return;
+        case '*':
+            token.type = TOK_MULT;
+            token.text[0] = '*';
+            token.text[1] = '\0';
+            src++;
+            return;            
     }
 
     printf("Unknown character: %c\n", *src);
@@ -88,6 +95,7 @@ const char *token_name(TokenType t) {
         case TOK_IDENTIFIER: return "IDENTIFIER";
         case TOK_ASSIGN: return "ASSIGN";
         case TOK_PLUS: return "PLUS";
+        case TOK_MULT: return "MULT";
         case TOK_NUMBER: return "NUMBER";
         case TOK_EOF: return "EOF";
     }
